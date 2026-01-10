@@ -2,4 +2,5 @@
 * text=auto
 ppcovers/ filter=lfs diff=lfs merge=lfs -text
 produtti/ filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
 produtti/world_alpha_*.png filter=lfs diff=lfs merge=lfs -text
