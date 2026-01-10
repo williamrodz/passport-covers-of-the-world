@@ -8,11 +8,14 @@ Caribbean Community Antigua and Barbuda Antigua and Barbuda
  
 Barbados
 Caribbean Community Barbados Barbados
- 
+
+Bahamas
+
 Bermuda
 United Kingdom Bermuda Bermuda
 EPassport logo.svg
 
+Canada
  
 Cayman Islands
 United Kingdom Cayman Islands Cayman Islands
@@ -27,11 +30,18 @@ EPassport logo.svg
 Cuba
 Cuba Cuba
 
+Dominica
+
  
 Dominican Republic
 Dominican Republic Dominican Republic
 
- 
+El Salvador
+
+Guinea
+
+Guatemala
+
 Greenland
 Danish Realm Greenland Greenland
 EPassport logo.svg
@@ -40,6 +50,7 @@ EPassport logo.svg
 Grenada
 Caribbean Community Grenada Grenada
 
+Haiti
  
 Honduras
 Central American Integration System Honduras Honduras
@@ -59,7 +70,8 @@ Montserrat
 United Kingdom Caribbean Community Montserrat Montserrat
 EPassport logo.svg
 
- 
+Nicaragua
+
 Panama
 Panama Panama
 EPassport logo.svg
@@ -69,6 +81,13 @@ Saint Vincent and the Grenadines
 Caribbean Community Saint Vincent and the Grenadines Saint Vincent and the Grenadines
 EPassport logo.svg
 
+Saint Lucia
+
+Saint Vincent
+
+Suriname
+
+St.Kitts And Nevis
  
 Trinidad and Tobago
 Caribbean Community Trinidad and Tobago Trinidad and Tobago

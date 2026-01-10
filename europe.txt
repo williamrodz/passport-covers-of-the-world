@@ -36,6 +36,8 @@ Croatia
 European Union Croatia Croatia
 EPassport logo.svg
 
+Cyprus
+
  
 Czech Republic
 European Union Czech Republic Czech Republic
@@ -141,12 +143,16 @@ Luxembourg
 European Union Luxembourg Luxembourg
 EPassport logo.svg
 
- 
+Malawi
+
+Malta
+
 Moldova
 Commonwealth of Independent States Moldova Moldova
 EPassport logo.svg
 
- 
+Monaco
+
 Montenegro
 Montenegro Montenegro
 EPassport logo.svg
@@ -191,6 +197,7 @@ Russia
 Commonwealth of Independent States Eurasian Economic Union Russia Russia
 EPassport logo.svg
 
+San Marino
  
 Serbia
 Serbia Serbia

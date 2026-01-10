@@ -1,7 +1,9 @@
 Argentina
 EPassport logo.svg
 
- 
+Belize
+Found manually, not on Wikipedia
+
 Bolivia
 Union of South American Nations Andean Community of Nations Bolivia Bolivia
 EPassport logo.svg
@@ -26,12 +28,16 @@ Ecuador
 Andean Community of Nations Ecuador Ecuador
 EPassport logo.svg
 
- 
+Guyana
+
+Paraguay
+
 Peru
 Andean Community of Nations Peru Peru
 EPassport logo.svg
 
- 
+Uruguay
+
 Venezuela
 Union of South American Nations Venezuela Venezuela
 EPassport logo.svg

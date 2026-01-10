@@ -23,6 +23,7 @@ EPassport logo.svg
 Bahrain
 Cooperation Council for the Arab States of the Gulf Bahrain Bahrain
 
+Bhutan
  
 Bangladesh
 Bangladesh Bangladesh
@@ -69,6 +70,7 @@ Iran
 Iran Iran
 EPassport logo.svg
 
+Iraq
  
 Israel
 Israel Israel
@@ -78,6 +80,8 @@ EPassport logo.svg
 Japan
 Japan Japan
 EPassport logo.svg
+
+Jordan
 
  
 Kazakhstan
@@ -163,6 +167,7 @@ Singapore
 ASEAN Singapore Singapore
 EPassport logo.svg
 
+Syria
  
 Korea
 South Korea South Korea (Republic of Korea (ROK))

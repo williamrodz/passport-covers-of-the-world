@@ -6,7 +6,25 @@ EPassport logo.svg
 Angola
 Angola Angola
 
- 
+Botswana
+Not in wikipedia, found after
+
+Burundi
+Not in wikipedia, found after
+
+Burkina Faso
+Not in wikipedia, found after
+
+Cameroon
+Not in wikipedia, found after
+
+Central African Republic
+
+Cote Divore
+
+Democratic Republic Of Congo
+
+
 Benin
 Benin Benin
 EPassport logo.svg
@@ -34,6 +52,7 @@ Congo
 Democratic Republic of the Congo DR Congo
 EPassport logo.svg
 
+Equatorial Guinea
  
 Egypt
 Egypt Egypt
@@ -55,6 +74,7 @@ Gabon
 Gabon Gabon
 EPassport logo.svg
 
+Gambia
  
 Ghana
 Ghana Ghana
@@ -69,15 +89,21 @@ Kenya
 Kenya Kenya
 EPassport logo.svg
 
- 
+Liberia
+
 libya
 Libya Libya
+
+Lesotho
 
  
 Madagascar
 Madagascar Madagascar
 EPassport logo.svg
 
+Mali
+
+Mauritius
  
 Mauritania
 Mauritania Mauritania
@@ -102,6 +128,10 @@ EPassport logo.svg
 Niger
 Niger Niger
 
+Nigeria
+
+Rwanda
+
  
 Saint Helena, Ascension and Tristan da Cunha
 United Kingdom Saint Helena Saint Helena, Ascension and Tristan da Cunha
@@ -111,7 +141,8 @@ EPassport logo.svg
 Sao Tome and Principe
 São Tomé and Príncipe São Tomé and Príncipe
 
- 
+Sierra Leone
+
 Senegal
 Senegal Senegal
 EPassport logo.svg
@@ -128,7 +159,9 @@ Somalia Somalia
 South Africa
 South Africa South Africa
 
- 
+South Sudan
+
+
 Sudan
 Sudan Sudan
 EPassport logo.svg
@@ -155,3 +188,5 @@ EPassport logo.svg
  
 Western Sahara
 Sahrawi Arab Democratic Republic Western Sahara
+
+Zambia
