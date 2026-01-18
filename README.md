@@ -159,6 +159,56 @@ jupyter notebook posterAssembly.ipynb
 └── produtti/               # Output folder for generated posters
 ```
 
+## Fonts to Use
+Standard System Fonts (Always Available)
+
+  - Arial
+  - Arial-Black
+  - Arial-Bold
+  - Georgia
+  - Georgia-Bold
+  - Times New Roman
+  - Times New Roman Bold
+  - Verdana
+  - Verdana-Bold
+  - Courier New
+  - Courier New Bold
+
+  Decorative/Display Fonts (Great for Poster Titles)
+
+  - LithosPro-Regular ← You're using this
+  - LithosPro-Black (heavier version)
+  - TrajanPro-Bold (classic serif, great for titles)
+  - TrajanPro-Regular
+  - CooperBlackStd (bold, vintage look)
+  - CharlemagneStd-Bold (elegant small caps)
+  - BrushScriptStd (script/handwritten)
+  - RosewoodStd-Regular (decorative western style)
+  - StencilStd (stencil style)
+  - BlackoakStd (bold display font)
+
+  Adobe Pro Fonts (Professional)
+
+  - MyriadPro-Bold (clean, modern)
+  - MyriadPro-Semibold
+  - MinionPro-Bold (elegant serif)
+  - MinionPro-Semibold
+  - ChaparralPro-Bold
+  - NuevaStd-Bold
+
+  SF Fonts (Apple System Fonts - Modern)
+
+  - SF-Pro-Display-Bold
+  - SF-Pro-Display-Black
+  - SF-Pro-Display-Heavy
+
+  You can use any of these directly in your code:
+  title_font_family="LithosPro-Regular"  # What you're currently using
+  title_font_family="TrajanPro-Bold"     # Classic alternative
+  title_font_family="MyriadPro-Bold"     # Modern clean look
+
+
+
 ## License
 
 This project is for educational and personal use.
