@@ -92,17 +92,22 @@ def add_text_label_to_image(
     Returns:
         New PIL Image with text label below the passport image
     """
+    # Reduce font size for long country names (> 22 characters)
+    adjusted_font_size = font_size
+    if len(text) > 24:
+        adjusted_font_size = int(font_size * 0.74)  # Reduce to 75% of original size
+
     # Try to load the specified font, fall back to default if not available
     try:
-        font = ImageFont.truetype(font_family, font_size)
+        font = ImageFont.truetype(font_family, adjusted_font_size)
     except:
         try:
             # Try common font paths on macOS
-            font = ImageFont.truetype(f"/System/Library/Fonts/Supplemental/{font_family}.ttf", font_size)
+            font = ImageFont.truetype(f"/System/Library/Fonts/Supplemental/{font_family}.ttf", adjusted_font_size)
         except:
             try:
                 # Try Arial as fallback
-                font = ImageFont.truetype("/System/Library/Fonts/Supplemental/Arial.ttf", font_size)
+                font = ImageFont.truetype("/System/Library/Fonts/Supplemental/Arial.ttf", adjusted_font_size)
             except:
                 # Use default PIL font as last resort
                 font = ImageFont.load_default()
