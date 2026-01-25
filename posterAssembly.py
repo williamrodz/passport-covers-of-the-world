@@ -27,6 +27,7 @@ TITLE_TEXT_COLOR = (0, 0, 0, 255)  # Black text
 
 # Configuration for layout spacing
 DEFAULT_HORIZONTAL_SPACING = 0  # Horizontal spacing between passport images in pixels
+DEFAULT_VERTICAL_SPACING = 0  # Vertical spacing between rows in pixels
 
 # Configuration for footer
 DEFAULT_FOOTER_FONT_SIZE = 30
@@ -304,9 +305,19 @@ def merge_horizontally(im1: Image.Image, im2: Image.Image, spacing: int = 0) -> 
     return im
 
 
-def merge_vertically(im1: Image.Image, im2: Image.Image) -> Image.Image:
-    """Merge two images vertically."""
-    h = im1.size[1] + im2.size[1]
+def merge_vertically(im1: Image.Image, im2: Image.Image, spacing: int = 0) -> Image.Image:
+    """
+    Merge two images vertically with optional spacing between them.
+
+    Args:
+        im1: First image (top)
+        im2: Second image (bottom)
+        spacing: Vertical spacing in pixels between the images (default: 0)
+
+    Returns:
+        Merged image with spacing between im1 and im2
+    """
+    h = im1.size[1] + spacing + im2.size[1]
     w = max(im1.size[0], im2.size[0])
     im = Image.new("RGBA", (w, h), (255, 255, 255, 255))  # White background
 
@@ -317,9 +328,9 @@ def merge_vertically(im1: Image.Image, im2: Image.Image) -> Image.Image:
         im.paste(im1, (0, 0))
 
     if im2.mode == 'RGBA':
-        im.paste(im2, (0, im1.size[1]), im2)
+        im.paste(im2, (0, im1.size[1] + spacing), im2)
     else:
-        im.paste(im2, (0, im1.size[1]))
+        im.paste(im2, (0, im1.size[1] + spacing))
 
     return im
 
@@ -352,6 +363,7 @@ def get_poster(
     title_text_color: Tuple[int, int, int, int] = TITLE_TEXT_COLOR,
     title_bg_color: Tuple[int, int, int, int] = TITLE_BACKGROUND_COLOR,
     horizontal_spacing: int = DEFAULT_HORIZONTAL_SPACING,
+    vertical_spacing: int = DEFAULT_VERTICAL_SPACING,
     footer_text: str = None,
     footer_height: int = DEFAULT_FOOTER_HEIGHT,
     footer_font_size: int = DEFAULT_FOOTER_FONT_SIZE,
@@ -378,6 +390,7 @@ def get_poster(
         title_text_color: RGBA tuple for title text color (default: black)
         title_bg_color: RGBA tuple for title background color (default: white)
         horizontal_spacing: Horizontal spacing in pixels between passport images (default: 0)
+        vertical_spacing: Vertical spacing in pixels between rows (default: 0)
         footer_text: Optional footer text to display at the bottom of the poster (e.g., copyright)
         footer_height: Height of the footer row in pixels (default: 100)
         footer_font_size: Font size for the footer (default: 30)
@@ -439,7 +452,7 @@ def get_poster(
         if poster is None:
             poster = row_image
         else:
-            poster = merge_vertically(poster, row_image)
+            poster = merge_vertically(poster, row_image, vertical_spacing)
 
     # Add title row at the top if title is provided
     if title:
@@ -528,9 +541,9 @@ def main():
         sa_poster.convert("RGB").save(output_path, "JPEG", quality=95)
         print(f"Saved: {output_path}")
 
-    # Example 3: Create World poster (20×10 grid for all countries) with title
+    # Example 3: Create World poster (23×10 grid for standard print sizes) with title
     print("\n" + "=" * 50)
-    print("Example 3: World Poster (20×10 grid) with Title")
+    print("Example 3: World Poster (23×10 grid) - 36\"×24\" Landscape")
     print("=" * 50)
     all_paths = []
     for paths in region_to_paths.values():
@@ -543,14 +556,15 @@ def main():
         font_size=60,
         font_family="Arial",
         horizontal_spacing=20,
+        vertical_spacing=8,
         title="Passports of the World",
         title_height=1000,
         title_font_size=1000,
         title_font_family="LithosPro-Regular",
-        footer_text="Copyright 2026",
-        footer_height=100,
-        footer_font_size=30,
-        footer_font_family="Arial",
+        footer_text="© 2026. All rights reserved.",
+        footer_height=60,
+        footer_font_size=26,
+        footer_font_family="SF-Pro-Display-Bold",
         footer_text_color=(0, 0, 0, 255),
         footer_bg_color=(255, 255, 255, 255),
         footer_left_margin=40
