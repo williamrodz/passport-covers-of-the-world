@@ -29,6 +29,13 @@ TITLE_TEXT_COLOR = (0, 0, 0, 255)  # Black text
 DEFAULT_HORIZONTAL_SPACING = 0  # Horizontal spacing between passport images in pixels
 DEFAULT_VERTICAL_SPACING = 0  # Vertical spacing between rows in pixels
 
+# Configuration for poster background
+DEFAULT_BACKGROUND_COLOR = (250, 250, 250, 255)  # Very light gray for poster background
+
+# Configuration for poster margins
+DEFAULT_LEFT_MARGIN = 5  # Left margin in pixels
+DEFAULT_RIGHT_MARGIN = 5  # Right margin in pixels
+
 # Configuration for footer
 DEFAULT_FOOTER_FONT_SIZE = 30
 DEFAULT_FOOTER_FONT_FAMILY = "Arial"
@@ -95,24 +102,36 @@ def add_text_label_to_image(
     """
     # Reduce font size for long country names (> 22 characters)
     adjusted_font_size = font_size
-    if len(text) > 24:
-        adjusted_font_size = int(font_size * 0.74)  # Reduce to 75% of original size
+    if len(text) >= 30:
+        adjusted_font_size = int(font_size * 0.65)
+    elif len(text) >= 24:
+        adjusted_font_size = int(font_size * 0.9)  # Reduce to 75% of original size
+    elif len(text) >= 22:
+        adjusted_font_size = int(font_size * 0.9)  # Reduce to 75% of original size        
+    # Try to load the BOLD version of the specified font
+    font = None
+    bold_font_variations = [
+        f"{font_family}-Bold",  # Try font name with -Bold suffix
+        f"{font_family} Bold",  # Try font name with space Bold
+        font_family,  # Try as-is (might already be bold)
+        f"/System/Library/Fonts/Supplemental/{font_family} Bold.ttf",
+        f"/System/Library/Fonts/Supplemental/{font_family}-Bold.ttf",
+        f"/System/Library/Fonts/Supplemental/{font_family}.ttf",
+        "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
+        "/System/Library/Fonts/Supplemental/Arial.ttf",
+    ]
 
-    # Try to load the specified font, fall back to default if not available
-    try:
-        font = ImageFont.truetype(font_family, adjusted_font_size)
-    except:
+    for font_variant in bold_font_variations:
         try:
-            # Try common font paths on macOS
-            font = ImageFont.truetype(f"/System/Library/Fonts/Supplemental/{font_family}.ttf", adjusted_font_size)
+            font = ImageFont.truetype(font_variant, adjusted_font_size)
+            break  # Success! Stop trying
         except:
-            try:
-                # Try Arial as fallback
-                font = ImageFont.truetype("/System/Library/Fonts/Supplemental/Arial.ttf", adjusted_font_size)
-            except:
-                # Use default PIL font as last resort
-                font = ImageFont.load_default()
-                print(f"Warning: Could not load font '{font_family}', using default font")
+            continue
+
+    if font is None:
+        # Use default PIL font as last resort
+        font = ImageFont.load_default()
+        print(f"Warning: Could not load bold font for '{font_family}', using default font")
 
     # Calculate text size using textbbox
     draw_temp = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
@@ -233,6 +252,8 @@ def create_footer_row(
         footer_text_color: RGBA tuple for footer text color (default: black)
         footer_bg_color: RGBA tuple for footer background color (default: white)
         footer_left_margin: Left margin for footer text in pixels (default: 40)
+        left_margin: Left margin of the poster in pixels (default: 5)
+        right_margin: Right margin of the poster in pixels (default: 5)
 
     Returns:
         PIL Image object containing the footer row
@@ -275,7 +296,7 @@ def create_footer_row(
     return footer_image
 
 
-def merge_horizontally(im1: Image.Image, im2: Image.Image, spacing: int = 0) -> Image.Image:
+def merge_horizontally(im1: Image.Image, im2: Image.Image, spacing: int = 0, bg_color: Tuple[int, int, int, int] = None) -> Image.Image:
     """
     Merge two images horizontally with optional spacing between them.
 
@@ -283,13 +304,17 @@ def merge_horizontally(im1: Image.Image, im2: Image.Image, spacing: int = 0) -> 
         im1: First image (left)
         im2: Second image (right)
         spacing: Horizontal spacing in pixels between the images (default: 0)
+        bg_color: RGBA tuple for background color (default: DEFAULT_BACKGROUND_COLOR)
 
     Returns:
         Merged image with spacing between im1 and im2
     """
+    if bg_color is None:
+        bg_color = DEFAULT_BACKGROUND_COLOR
+
     w = im1.size[0] + spacing + im2.size[0]
     h = max(im1.size[1], im2.size[1])
-    im = Image.new("RGBA", (w, h), (255, 255, 255, 255))  # White background
+    im = Image.new("RGBA", (w, h), bg_color)
 
     # Use alpha channel as mask to prevent black artifacts
     if im1.mode == 'RGBA':
@@ -305,7 +330,7 @@ def merge_horizontally(im1: Image.Image, im2: Image.Image, spacing: int = 0) -> 
     return im
 
 
-def merge_vertically(im1: Image.Image, im2: Image.Image, spacing: int = 0) -> Image.Image:
+def merge_vertically(im1: Image.Image, im2: Image.Image, spacing: int = 0, bg_color: Tuple[int, int, int, int] = None) -> Image.Image:
     """
     Merge two images vertically with optional spacing between them.
 
@@ -313,13 +338,17 @@ def merge_vertically(im1: Image.Image, im2: Image.Image, spacing: int = 0) -> Im
         im1: First image (top)
         im2: Second image (bottom)
         spacing: Vertical spacing in pixels between the images (default: 0)
+        bg_color: RGBA tuple for background color (default: DEFAULT_BACKGROUND_COLOR)
 
     Returns:
         Merged image with spacing between im1 and im2
     """
+    if bg_color is None:
+        bg_color = DEFAULT_BACKGROUND_COLOR
+
     h = im1.size[1] + spacing + im2.size[1]
     w = max(im1.size[0], im2.size[0])
-    im = Image.new("RGBA", (w, h), (255, 255, 255, 255))  # White background
+    im = Image.new("RGBA", (w, h), bg_color)
 
     # Use alpha channel as mask to prevent black artifacts
     if im1.mode == 'RGBA':
@@ -364,13 +393,16 @@ def get_poster(
     title_bg_color: Tuple[int, int, int, int] = TITLE_BACKGROUND_COLOR,
     horizontal_spacing: int = DEFAULT_HORIZONTAL_SPACING,
     vertical_spacing: int = DEFAULT_VERTICAL_SPACING,
+    background_color: Tuple[int, int, int, int] = DEFAULT_BACKGROUND_COLOR,
     footer_text: str = None,
     footer_height: int = DEFAULT_FOOTER_HEIGHT,
     footer_font_size: int = DEFAULT_FOOTER_FONT_SIZE,
     footer_font_family: str = DEFAULT_FOOTER_FONT_FAMILY,
     footer_text_color: Tuple[int, int, int, int] = FOOTER_TEXT_COLOR,
     footer_bg_color: Tuple[int, int, int, int] = FOOTER_BACKGROUND_COLOR,
-    footer_left_margin: int = FOOTER_LEFT_MARGIN
+    footer_left_margin: int = FOOTER_LEFT_MARGIN,
+    left_margin: int = DEFAULT_LEFT_MARGIN,
+    right_margin: int = DEFAULT_RIGHT_MARGIN
 ) -> Image.Image:
     """
     Create a poster from passport cover images.
@@ -382,7 +414,7 @@ def get_poster(
         font_size: Font size for country labels (default: 40)
         font_family: Font family for country labels (default: "Arial")
         text_color: RGBA tuple for text color (default: black)
-        bg_color: RGBA tuple for background color (default: white)
+        bg_color: RGBA tuple for text label background color (default: white)
         title: Optional title text to display at the top of the poster (default: None)
         title_height: Height of the title row in pixels (default: 200)
         title_font_size: Font size for the title (default: 120)
@@ -391,6 +423,7 @@ def get_poster(
         title_bg_color: RGBA tuple for title background color (default: white)
         horizontal_spacing: Horizontal spacing in pixels between passport images (default: 0)
         vertical_spacing: Vertical spacing in pixels between rows (default: 0)
+        background_color: RGBA tuple for overall poster background color (default: very light gray)
         footer_text: Optional footer text to display at the bottom of the poster (e.g., copyright)
         footer_height: Height of the footer row in pixels (default: 100)
         footer_font_size: Font size for the footer (default: 30)
@@ -398,6 +431,8 @@ def get_poster(
         footer_text_color: RGBA tuple for footer text color (default: black)
         footer_bg_color: RGBA tuple for footer background color (default: white)
         footer_left_margin: Left margin for footer text in pixels (default: 40)
+        left_margin: Left margin of the poster in pixels (default: 5)
+        right_margin: Right margin of the poster in pixels (default: 5)
 
     Returns:
         PIL Image object containing the assembled poster
@@ -425,7 +460,7 @@ def get_poster(
                 font_size=font_size,
                 font_family=font_family,
                 text_color=text_color,
-                bg_color=bg_color
+                bg_color=background_color
             )
 
         # Build rows horizontally
@@ -433,7 +468,7 @@ def get_poster(
             current_row_image = processed_image
             elements_in_row_so_far = 1
         elif elements_in_row_so_far < images_per_row:
-            current_row_image = merge_horizontally(current_row_image, processed_image, horizontal_spacing)
+            current_row_image = merge_horizontally(current_row_image, processed_image, horizontal_spacing, background_color)
             elements_in_row_so_far += 1
         else:
             # Start new row
@@ -452,7 +487,7 @@ def get_poster(
         if poster is None:
             poster = row_image
         else:
-            poster = merge_vertically(poster, row_image, vertical_spacing)
+            poster = merge_vertically(poster, row_image, vertical_spacing, background_color)
 
     # Add title row at the top if title is provided
     if title:
@@ -467,7 +502,7 @@ def get_poster(
             title_bg_color=title_bg_color
         )
         # Add title row at the top
-        poster = merge_vertically(title_row, poster)
+        poster = merge_vertically(title_row, poster, bg_color=background_color)
 
     # Add footer row at the bottom if footer_text is provided
     if footer_text:
@@ -483,7 +518,23 @@ def get_poster(
             footer_left_margin=footer_left_margin
         )
         # Add footer row at the bottom
-        poster = merge_vertically(poster, footer_row)
+        poster = merge_vertically(poster, footer_row, bg_color=background_color)
+
+    # Add left and right margins as the final step
+    if left_margin > 0 or right_margin > 0:
+        poster_width, poster_height = poster.size
+        new_width = poster_width + left_margin + right_margin
+
+        # Create new image with margins
+        final_poster = Image.new("RGBA", (new_width, poster_height), background_color)
+
+        # Paste the poster with left margin offset
+        if poster.mode == 'RGBA':
+            final_poster.paste(poster, (left_margin, 0), poster)
+        else:
+            final_poster.paste(poster, (left_margin, 0))
+
+        poster = final_poster
 
     print(f"Poster created! Size: {poster.size[0]}×{poster.size[1]} pixels")
     return poster
@@ -567,7 +618,9 @@ def main():
         footer_font_family="SF-Pro-Display-Bold",
         footer_text_color=(0, 0, 0, 255),
         footer_bg_color=(255, 255, 255, 255),
-        footer_left_margin=40
+        footer_left_margin=40,
+        left_margin=10,
+        right_margin=10
     )
 
     output_path = "./produtti/world_poster_with_labels.jpg"
